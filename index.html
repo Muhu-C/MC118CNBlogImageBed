@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MC118CN 博客图片网站</title>
+    <link rel="icon" href="image.ico" type="image/x-icon" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Segoe UI", "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0c0c0d;
+            color: #ffffff;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.50;
+            will-change: transform;
+        }
+        .bg-glow--blue {
+            width: 600px;
+            height: 600px;
+            top: -180px;
+            left: -180px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.50), rgba(0, 120, 212, 0) 70%);
+        }
+        .bg-glow--purple {
+            width: 700px;
+            height: 700px;
+            bottom: -200px;
+            right: -200px;
+            background: radial-gradient(circle, rgba(107, 47, 160, 0.45), rgba(107, 47, 160, 0) 70%);
+        }
+        .bg-glow--teal {
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(0, 180, 200, 0.12), rgba(0, 180, 200, 0) 70%);
+            filter: blur(160px);
+            opacity: 0.35;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            width: 100%;
+            padding: 56px 48px 40px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(32px) saturate(1.6);
+            -webkit-backdrop-filter: blur(32px) saturate(1.6);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow:
+                0 30px 60px -20px rgba(0, 0, 0, 0.8),
+                0 8px 24px -8px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 40px 80px -24px rgba(0, 0, 0, 0.9),
+                0 12px 32px -10px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .header__icon {
+            display: inline-block;
+            width: 52px;
+            height: 52px;
+            margin-bottom: 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 8px;
+            transition: background 0.3s ease;
+        }
+        .header__icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .card:hover .header__icon {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .header__title {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+        .header__title span {
+            background: linear-gradient(135deg, #f0f4ff 0%, #a0c4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header__sub {
+            font-size: 15px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 0.2px;
+        }
+
+        .divider {
+            width: 48px;
+            height: 2px;
+            margin: 20px auto 28px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+        }
+
+        .btn-blog {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 44px;
+            font-size: 17px;
+            font-weight: 500;
+            font-family: inherit;
+            color: #ffffff;
+            background: rgba(0, 120, 212, 0.85);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+            box-shadow:
+                0 4px 16px rgba(0, 120, 212, 0.30),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-blog::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 60%);
+            pointer-events: none;
+        }
+
+        .btn-blog:hover {
+            transform: translateY(-2px) scale(1.02);
+            background: rgba(0, 120, 212, 1);
+            box-shadow:
+                0 8px 32px rgba(0, 120, 212, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.20);
+        }
+
+        .btn-blog:active {
+            transform: translateY(0) scale(0.97);
+            box-shadow:
+                0 2px 8px rgba(0, 120, 212, 0.25);
+        }
+
+        .btn-blog__icon {
+            display: inline-block;
+            font-size: 20px;
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+        .btn-blog:hover .btn-blog__icon {
+            transform: translateX(2px) scale(1.08);
+        }
+
+        .footer {
+            margin-top: 36px;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+        }
+        .footer:hover {
+            color: rgba(255, 255, 255, 0.40);
+        }
+        .footer__dot {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+        .footer__heart {
+            display: inline-block;
+            color: rgba(255, 80, 80, 0.35);
+            transition: color 0.4s ease;
+        }
+        .footer:hover .footer__heart {
+            color: rgba(255, 80, 80, 0.60);
+        }
+
+        @media (max-width: 560px) {
+            .card {
+                padding: 36px 24px 30px;
+                border-radius: 20px;
+            }
+            .header__title {
+                font-size: 24px;
+            }
+            .header__icon {
+                width: 44px;
+                height: 44px;
+                padding: 6px;
+            }
+            .btn-blog {
+                padding: 12px 32px;
+                font-size: 15px;
+                border-radius: 32px;
+            }
+            .bg-glow--blue {
+                width: 400px;
+                height: 400px;
+                top: -120px;
+                left: -120px;
+                filter: blur(90px);
+            }
+            .bg-glow--purple {
+                width: 450px;
+                height: 450px;
+                bottom: -120px;
+                right: -120px;
+                filter: blur(90px);
+            }
+            .footer {
+                font-size: 11px;
+                margin-top: 28px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                padding: 28px 16px 24px;
+            }
+            .header__title {
+                font-size: 20px;
+            }
+            .btn-blog {
+                padding: 10px 24px;
+                font-size: 14px;
+                gap: 6px;
+            }
+            .btn-blog__icon {
+                font-size: 16px;
+            }
+        }
+
+        .card {
+            opacity: 0;
+            transform: translateY(16px) scale(0.98);
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes cardIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ===== 滚动条美化 (可选) ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.20);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== 背景光晕 ===== -->
+    <div class="bg-glow bg-glow--blue"></div>
+    <div class="bg-glow bg-glow--purple"></div>
+    <div class="bg-glow bg-glow--teal"></div>
+
+    <!-- ===== 主卡片 ===== -->
+    <main class="card" role="main">
+
+        <!-- 标题区 -->
+        <div class="header">
+            <h1 class="header__title">
+                <span>MC118CN 博客图片网站</span>
+            </h1>
+            <p class="header__sub">注意：这里是博客图片存放地址，即私人图床</p>
+        </div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- 博客按钮 -->
+        <a class="btn-blog" href="https://blog.mc118cn.cn" target="_blank" rel="noopener noreferrer">
+            博客
+            <span class="btn-blog__icon" aria-hidden="true">→</span>
+        </a>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <span>图片暂时由 Netlify 托管</span>
+            <span class="footer__dot" aria-hidden="true"></span>
+            <span aria-hidden="true">@ MC118CN 2024 ~ 2026</span>
+        </footer>
+
+    </main>
+
+</body>
+</html>

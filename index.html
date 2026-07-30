@@ -7,6 +7,7 @@
     <link rel="icon" href="image.ico" type="image/x-icon" />
 
     <style>
+        /* ===== 全局重置 & 基础 ===== */
         *,
         *::before,
         *::after {
@@ -18,6 +19,7 @@
         body {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             font-family: "Segoe UI", "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -25,9 +27,10 @@
             color: #ffffff;
             padding: 24px;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
+        /* ===== 背景光晕 ===== */
         .bg-glow {
             position: fixed;
             border-radius: 50%;
@@ -62,12 +65,21 @@
             opacity: 0.35;
         }
 
-        .card {
+        /* ===== 容器 ===== */
+        .container {
             position: relative;
             z-index: 1;
-            max-width: 640px;
+            max-width: 860px;
             width: 100%;
-            padding: 56px 48px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* ===== 卡片通用 (Fluent Acrylic) ===== */
+        .card {
+            width: 100%;
+            padding: 40px 40px 32px;
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(32px) saturate(1.6);
             -webkit-backdrop-filter: blur(32px) saturate(1.6);
@@ -77,10 +89,8 @@
                 0 30px 60px -20px rgba(0, 0, 0, 0.8),
                 0 8px 24px -8px rgba(0, 0, 0, 0.6),
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            text-align: center;
             transition: transform 0.3s ease, box-shadow 0.4s ease;
         }
-
         .card:hover {
             transform: translateY(-2px);
             box-shadow:
@@ -89,10 +99,10 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
-        .header {
-            margin-bottom: 28px;
+        /* ===== 第一张卡片：头部 ===== */
+        .header-card {
+            text-align: center;
         }
-
         .header__icon {
             display: inline-block;
             width: 52px;
@@ -113,12 +123,10 @@
         .card:hover .header__icon {
             background: rgba(255, 255, 255, 0.08);
         }
-
         .header__title {
             font-size: 32px;
             font-weight: 600;
             letter-spacing: -0.3px;
-            color: #ffffff;
             line-height: 1.2;
             margin-bottom: 6px;
         }
@@ -128,14 +136,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .header__sub {
             font-size: 15px;
             font-weight: 400;
             color: rgba(255, 255, 255, 0.45);
             letter-spacing: 0.2px;
         }
-
         .divider {
             width: 48px;
             height: 2px;
@@ -143,7 +149,6 @@
             border-radius: 2px;
             background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
         }
-
         .btn-blog {
             display: inline-flex;
             align-items: center;
@@ -162,14 +167,11 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
-            box-shadow:
-                0 4px 16px rgba(0, 120, 212, 0.30),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 120, 212, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15);
             position: relative;
             overflow: hidden;
             letter-spacing: 0.3px;
         }
-
         .btn-blog::before {
             content: "";
             position: absolute;
@@ -178,21 +180,15 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 60%);
             pointer-events: none;
         }
-
         .btn-blog:hover {
             transform: translateY(-2px) scale(1.02);
             background: rgba(0, 120, 212, 1);
-            box-shadow:
-                0 8px 32px rgba(0, 120, 212, 0.45),
-                inset 0 1px 0 rgba(255, 255, 255, 0.20);
+            box-shadow: 0 8px 32px rgba(0, 120, 212, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.20);
         }
-
         .btn-blog:active {
             transform: translateY(0) scale(0.97);
-            box-shadow:
-                0 2px 8px rgba(0, 120, 212, 0.25);
+            box-shadow: 0 2px 8px rgba(0, 120, 212, 0.25);
         }
-
         .btn-blog__icon {
             display: inline-block;
             font-size: 20px;
@@ -203,8 +199,164 @@
             transform: translateX(2px) scale(1.08);
         }
 
+        /* ===== 第二张卡片：文件目录 (Z-File风格) ===== */
+        .browser-card {
+            padding: 28px 32px 32px;
+        }
+        .browser-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .browser-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .browser-title span {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* 面包屑 */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px 4px;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.35);
+            padding: 4px 0 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 20px;
+        }
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .breadcrumb a:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .breadcrumb .sep {
+            color: rgba(255, 255, 255, 0.15);
+            user-select: none;
+        }
+        .breadcrumb .current {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        /* 网格 (Z-File 类似) */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+            min-height: 160px;
+        }
+        .file-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 8px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1);
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            min-height: 100px;
+            word-break: break-all;
+        }
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+        }
+        .file-item .icon {
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        .file-item .name {
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.3;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: rgba(255, 255, 255, 0.75);
+        }
+        .file-item.folder .name {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+        .file-item.file .name {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 空状态 & 加载 */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 14px;
+        }
+        .loading-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+        }
+        .loading-state::after {
+            content: "...";
+            animation: dots 1.2s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0% {
+                content: "";
+            }
+            25% {
+                content: ".";
+            }
+            50% {
+                content: "..";
+            }
+            75% {
+                content: "...";
+            }
+        }
+
+        /* ===== 底部 ===== */
         .footer {
-            margin-top: 36px;
+            margin-top: 12px;
+            text-align: center;
             font-size: 13px;
             font-weight: 400;
             color: rgba(255, 255, 255, 0.25);
@@ -232,10 +384,14 @@
             color: rgba(255, 80, 80, 0.60);
         }
 
-        @media (max-width: 560px) {
+        /* ===== 响应式 ===== */
+        @media (max-width: 600px) {
             .card {
-                padding: 36px 24px 30px;
+                padding: 28px 18px 24px;
                 border-radius: 20px;
+            }
+            .browser-card {
+                padding: 20px 14px 24px;
             }
             .header__title {
                 font-size: 24px;
@@ -248,7 +404,23 @@
             .btn-blog {
                 padding: 12px 32px;
                 font-size: 15px;
-                border-radius: 32px;
+            }
+            .file-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 10px;
+            }
+            .file-item {
+                min-height: 80px;
+                padding: 12px 4px;
+            }
+            .file-item .icon {
+                font-size: 28px;
+            }
+            .file-item .name {
+                font-size: 11px;
+            }
+            .breadcrumb {
+                font-size: 12px;
             }
             .bg-glow--blue {
                 width: 400px;
@@ -264,16 +436,8 @@
                 right: -120px;
                 filter: blur(90px);
             }
-            .footer {
-                font-size: 11px;
-                margin-top: 28px;
-            }
         }
-
         @media (max-width: 400px) {
-            .card {
-                padding: 28px 16px 24px;
-            }
             .header__title {
                 font-size: 20px;
             }
@@ -282,15 +446,19 @@
                 font-size: 14px;
                 gap: 6px;
             }
-            .btn-blog__icon {
-                font-size: 16px;
+            .file-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
             }
         }
 
+        /* ===== 入场动画 ===== */
         .card {
             opacity: 0;
             transform: translateY(16px) scale(0.98);
             animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .card:nth-child(2) {
+            animation-delay: 0.08s;
         }
         @keyframes cardIn {
             to {
@@ -299,7 +467,7 @@
             }
         }
 
-        /* ===== 滚动条美化 (可选) ===== */
+        /* 滚动条 */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -324,33 +492,200 @@
     <div class="bg-glow bg-glow--purple"></div>
     <div class="bg-glow bg-glow--teal"></div>
 
-    <!-- ===== 主卡片 ===== -->
-    <main class="card" role="main">
+    <div class="container">
 
-        <!-- 标题区 -->
-        <div class="header">
-            <h1 class="header__title">
-                <span>MC118CN 博客图片网站</span>
-            </h1>
-            <p class="header__sub">注意：这里是博客图片存放地址，即私人图床</p>
-        </div>
+        <!-- ===== 第一张卡片：标题与博客跳转 ===== -->
+        <main class="card header-card" role="main">
+            <div class="header">
+                <h1 class="header__title">
+                    <span>MC118CN 博客图片网站</span>
+                </h1>
+                <br/>
+                <p class="header__sub">注意：这里是 MC118CN 博客专用图片网站，即私人图床</p>
+            </div>
+            <div class="divider" aria-hidden="true"></div>
+            <a class="btn-blog" href="https://blog.mc118cn.cn" target="_blank" rel="noopener noreferrer">
+                博客
+                <span class="btn-blog__icon" aria-hidden="true">→</span>
+            </a>
+        </main>
 
-        <div class="divider" aria-hidden="true"></div>
+        <!-- ===== 第二张卡片：文件目录 ===== -->
+        <section class="card browser-card" aria-label="文件目录">
+            <div class="browser-header">
+                <div class="browser-title">
+                    📁 文件目录
+                    <span id="fileCount">加载中...</span>
+                </div>
+            </div>
 
-        <!-- 博客按钮 -->
-        <a class="btn-blog" href="https://blog.mc118cn.cn" target="_blank" rel="noopener noreferrer">
-            博客
-            <span class="btn-blog__icon" aria-hidden="true">→</span>
-        </a>
+            <!-- 面包屑 -->
+            <nav class="breadcrumb" id="breadcrumb" aria-label="面包屑">
+                <a data-path="root">📂 根目录</a>
+            </nav>
 
-        <!-- 底部 -->
+            <!-- 文件网格 -->
+            <div class="file-grid" id="fileGrid">
+                <div class="loading-state">加载目录</div>
+            </div>
+        </section>
+
+        <!-- ===== 底部 ===== -->
         <footer class="footer">
-            <span>图片暂时由 Netlify 托管</span>
+            <span>该网站由 Netlify 托管</span>
             <span class="footer__dot" aria-hidden="true"></span>
-            <span aria-hidden="true">@ MC118CN 2024 ~ 2026</span>
+            <span class="footer__heart" aria-hidden="true">♥</span>
         </footer>
 
-    </main>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ---------- 全局状态 ----------
+            let fullTree = null; // 完整的树结构
+            let currentPath = []; // 当前相对路径数组，例如 ['2024', 'summer']
+
+            const grid = document.getElementById('fileGrid');
+            const breadcrumb = document.getElementById('breadcrumb');
+            const fileCountSpan = document.getElementById('fileCount');
+
+            // ---------- 工具函数 ----------
+            function getNodeByPath(tree, pathArray) {
+                if (!tree) return null;
+                let node = tree;
+                for (const seg of pathArray) {
+                    if (!node.children) return null;
+                    const found = node.children.find(c => c.name === seg && c.type === 'directory');
+                    if (!found) return null;
+                    node = found;
+                }
+                return node;
+            }
+
+            // 获取当前节点的 children
+            function getCurrentChildren(tree, pathArray) {
+                const node = getNodeByPath(tree, pathArray);
+                if (!node || !node.children) return [];
+                return node.children;
+            }
+
+            // 渲染网格
+            function render(tree, pathArray) {
+                const children = getCurrentChildren(tree, pathArray);
+                if (!children.length) {
+                    grid.innerHTML = `<div class="empty-state">📭 此目录为空</div>`;
+                    fileCountSpan.textContent = '0 项';
+                    return;
+                }
+
+                // 统计文件/文件夹数量
+                const dirs = children.filter(c => c.type === 'directory');
+                const files = children.filter(c => c.type === 'file');
+                fileCountSpan.textContent = `${dirs.length} 个文件夹 · ${files.length} 个文件`;
+
+                let html = '';
+                // 先显示文件夹，再显示文件 (Z-File 风格)
+                const sorted = [...dirs, ...files];
+                for (const item of sorted) {
+                    const isDir = item.type === 'directory';
+                    const icon = isDir ? '📁' : '🖼️';
+                    const name = item.name;
+                    // 构建 data-path 用于点击
+                    const pathAttr = isDir ? pathArray.concat(name).join('/') : '';
+                    const fileUrl = isDir ? '' : (item.url || `/images/${pathArray.concat(name).join('/')}`);
+                    // 如果是文件，点击跳转；文件夹点击进入
+                    const onclickAttr = isDir ?
+                        `onclick="window.__navigateTo('${pathAttr}')"` :
+                        `onclick="window.open('${fileUrl}', '_blank')"`;
+                    const extraClass = isDir ? 'folder' : 'file';
+                    html += `
+                        <div class="file-item ${extraClass}" ${onclickAttr} title="${name}">
+                            <div class="icon">${icon}</div>
+                            <div class="name">${name}</div>
+                        </div>
+                    `;
+                }
+                grid.innerHTML = html;
+
+                // 更新面包屑
+                renderBreadcrumb(tree, pathArray);
+            }
+
+            // 渲染面包屑
+            function renderBreadcrumb(tree, pathArray) {
+                let html = `<a data-path="root">📂 根目录</a>`;
+                let cumPath = [];
+                for (let i = 0; i < pathArray.length; i++) {
+                    const seg = pathArray[i];
+                    cumPath.push(seg);
+                    const isLast = (i === pathArray.length - 1);
+                    if (isLast) {
+                        html += `<span class="sep"> / </span><span class="current">${seg}</span>`;
+                    } else {
+                        const pathStr = cumPath.join('/');
+                        html += `<span class="sep"> / </span><a data-path="${pathStr}">${seg}</a>`;
+                    }
+                }
+                breadcrumb.innerHTML = html;
+
+                // 绑定面包屑点击事件（事件委托）
+                breadcrumb.querySelectorAll('a[data-path]').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const p = this.dataset.path;
+                        if (p === 'root') {
+                            window.__navigateTo('');
+                        } else {
+                            window.__navigateTo(p);
+                        }
+                    });
+                });
+            }
+
+            // ---------- 导航函数 (暴露给全局) ----------
+            window.__navigateTo = function(pathStr) {
+                if (!fullTree) return;
+                // pathStr 为空字符串代表根目录
+                const parts = pathStr ? pathStr.split('/').filter(Boolean) : [];
+                // 验证路径是否存在
+                const node = getNodeByPath(fullTree, parts);
+                if (!node) {
+                    // 如果路径无效，回到根目录
+                    currentPath = [];
+                    render(fullTree, currentPath);
+                    return;
+                }
+                currentPath = parts;
+                render(fullTree, currentPath);
+            };
+
+            // ---------- 加载数据 ----------
+            async function loadData() {
+                try {
+                    const resp = await fetch('images.json?t=' + Date.now());
+                    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                    const data = await resp.json();
+                    // 期望数据结构: { name: "images", type: "directory", children: [...] }
+                    if (!data || data.type !== 'directory') {
+                        throw new Error('Invalid images.json structure');
+                    }
+                    fullTree = data;
+                    currentPath = [];
+                    render(fullTree, []);
+                } catch (err) {
+                    console.error('加载 images.json 失败:', err);
+                    grid.innerHTML = `<div class="empty-state">⚠️ 无法加载目录数据，请确认 images.json 存在</div>`;
+                    fileCountSpan.textContent = '加载失败';
+                }
+            }
+
+            // 启动
+            loadData();
+
+        })();
+    </script>
 
 </body>
 </html>

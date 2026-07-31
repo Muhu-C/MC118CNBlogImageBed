@@ -215,6 +215,11 @@
       "url": "/images/about-4.png"
     },
     {
+      "name": "about-netlify.jpg",
+      "type": "file",
+      "url": "/images/about-netlify.jpg"
+    },
+    {
       "name": "collection.jpg",
       "type": "file",
       "url": "/images/collection.jpg"

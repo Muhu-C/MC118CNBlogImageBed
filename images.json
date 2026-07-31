@@ -235,6 +235,11 @@
       "url": "/images/hexo.png"
     },
     {
+      "name": "notice-of-views.jpg",
+      "type": "file",
+      "url": "/images/notice-of-views.jpg"
+    },
+    {
       "name": "notice.jpg",
       "type": "file",
       "url": "/images/notice.jpg"

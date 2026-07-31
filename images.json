@@ -19,6 +19,22 @@
       ]
     },
     {
+      "name": "about-netlify",
+      "type": "directory",
+      "children": [
+        {
+          "name": "0.png",
+          "type": "file",
+          "url": "/images/about-netlify/0.png"
+        },
+        {
+          "name": "1.png",
+          "type": "file",
+          "url": "/images/about-netlify/1.png"
+        }
+      ]
+    },
+    {
       "name": "blog-experience-1",
       "type": "directory",
       "children": [

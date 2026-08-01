@@ -1,0 +1,4 @@
+/images/*
+  Access-Control-Allow-Origin: https://blog.mc118cn.cn
+  Access-Control-Allow-Methods: GET
+  Access-Control-Allow-Headers: *
